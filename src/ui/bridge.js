@@ -5,6 +5,8 @@
 // that knows how those decisions are drawn on screen, and it re-provides the
 // handful of globals the inline on* handlers still call.
 import { createAutopilot } from '../core/autopilot.js';
+import { watchMovement, platform } from '../core/location.js';
+import { initNotifications, deliver } from '../core/notify.js';
 import { S, renderHome, showBanner, dismissBanner, startSession, stopSession, updateDwellStatus } from './app.js';
 
 const BANNER_CLASS = {
@@ -67,7 +69,12 @@ function renderPrompt(note) {
 
 export const autopilot = createAutopilot({
   config: { dwellMinutes: S.dwellTime },
-  notify: renderPrompt,
+  notify: note => {
+    // On a phone the prompt has to reach a locked screen; the banner is the
+    // browser's stand-in and the in-app echo once you are looking at the app.
+    deliver(note).catch(() => {});
+    renderPrompt(note);
+  },
   startSession: () => { startSession(); renderHome(); },
   stopSession: () => { stopSession(true); renderHome(); },
   onPhase: () => { updateDwellStatus(); },
@@ -75,6 +82,35 @@ export const autopilot = createAutopilot({
 
 // Exposed for the dev-tools panel and for driving the sequence in a test.
 window.autopilot = autopilot;
+
+// ── real movement ───────────────────────────────────────────────────────────
+// The dev-tools speed slider stays usable; a real fix comes in on top of it and
+// simply overwrites S.speed, so the same tick loop drives both.
+let stopWatching = null;
+
+export async function startTracking() {
+  if (stopWatching) return;
+  await initNotifications(id => { autopilot.action(id); renderHome(); });
+  stopWatching = await watchMovement(
+    sample => {
+      S.speed = Math.round(sample.speedKmh);
+      autopilot.setEnabled({ start: S.autoStartEnabled, stop: S.autoStopEnabled });
+      autopilot.setConfig({ dwellMinutes: S.dwellTime });
+      autopilot.tick({ speed: S.speed, sessionActive: S.sessionActive });
+      S.dwellCounter = autopilot.dwellSeconds;
+      updateDwellStatus();
+    },
+    () => showBanner('geo', 'Location unavailable — autopilot paused', 'b-alert')
+  );
+}
+
+export function stopTracking() {
+  if (stopWatching) { stopWatching(); stopWatching = null; }
+}
+
+window.startTracking = startTracking;
+window.stopTracking = stopTracking;
+window.autopilotPlatform = platform;
 
 // ── globals the prototype's inline handlers still call ──────────────────────
 window.tickDwell = function () {

@@ -28,5 +28,8 @@ for (const brand of brands) {
       run('npx', ['cap', 'sync', platform], { BRAND: brand });
     }
   }
-  console.log(`${brand}: synced\n`);
+  console.log(`${brand}: synced`);
 }
+
+// Re-apply the permissions the generated projects do not carry by themselves.
+run('node', ['scripts/patch-native.mjs']);

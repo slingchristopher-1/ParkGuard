@@ -4,12 +4,16 @@
 import './ui/styles.css';
 import brand from './brand/active.json';
 import { S, showOnboarding } from './ui/app.js';
-import './ui/bridge.js';
+import { startTracking } from './ui/bridge.js';
 
 applyBrand(brand);
 
 document.getElementById('app').classList.toggle('dark', S.dark);
 showOnboarding();
+
+// Asks for location (and, on a phone, notification) permission. Declining just
+// leaves the autopilot idle — the dev-tools speed slider still drives it.
+if (S.permLocation) startTracking().catch(() => {});
 
 function applyBrand(b) {
   const root = document.documentElement;
