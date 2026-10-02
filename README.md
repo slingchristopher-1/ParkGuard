@@ -42,6 +42,24 @@ miss a brand, and `npm run build:all` proves it by building all of them.
 
 Adding a third brand is a new folder under `brands/` and nothing else.
 
+## Parking zones
+
+Tariffs come from the RDW open data portal (`opendata.rdw.nl`) — open licence,
+no key, no per-request cost. `scripts/build-zones.mjs` downloads and joins the
+six datasets into a single bundled snapshot; the app never calls RDW at runtime.
+
+```bash
+npm run zones    # refresh src/data/nl-parking-zones.geojson
+```
+
+A zone is not one price. It carries a weekly schedule of
+`[weekday, startMinute, endMinute, eurPerHour]` windows, so an evening or Sunday
+stay prices at zero instead of at the weekday rate. Zones whose tariff cannot be
+resolved are kept with `sched: null` and read as **tariff unknown** — never as
+free parking, which would be a fine waiting to happen.
+
+Current snapshot: 3032 zones, 2338 priced, across 114 municipalities.
+
 ## Commands
 
 ```bash
@@ -56,9 +74,16 @@ npm run build:all           # → dist-parkguard/, dist-parkmatiq/
 ## On your phone
 
 **As a web app (no store, updates on push):** the Pages workflow publishes
-`dist/` on every push to `main`. Open the published URL on the phone and use
-Add to Home Screen — it then launches standalone, with its own icon, and updates
-itself on next launch.
+`dist/` on every push to `main`.
+
+> **https://slingchristopher-1.github.io/ParkGuard/**
+
+- **iPhone** — open that link in **Safari** (not Chrome; only Safari can install
+  a home-screen app on iOS), tap **Share** → **Add to Home Screen**. It then
+  launches fullscreen with its own icon and updates itself on next launch.
+- **Android** — open it in Chrome, menu → **Add to Home screen**.
+
+Allow location when asked, or the autopilot has nothing to watch.
 
 **As a native app (needed for background start/stop):** the web build is wrapped
 by Capacitor. Both platforms are driven from the same `dist/`, so a general

@@ -14,7 +14,8 @@
     "native:sync": "node scripts/sync-native.mjs",
     "android:open": "npm run build && cap sync android && cap open android",
     "ios:open": "npm run build && cap sync ios && cap open ios",
-    "icons": "node scripts/make-icons.mjs"
+    "icons": "node scripts/make-icons.mjs",
+    "zones": "node scripts/build-zones.mjs"
   },
   "dependencies": {
     "@capacitor-community/background-geolocation": "^1.2.26",

@@ -30,6 +30,21 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        runtimeCaching: [
+          {
+            // The zone data decides what a spot costs, so it has to survive a
+            // lost connection — without it the app can only say "tariff
+            // unknown". Cached on first use rather than precached: it is
+            // several MB and not every session needs it immediately.
+            urlPattern: /\.geojson$/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'parking-zones',
+              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
       },
     }),
   ],

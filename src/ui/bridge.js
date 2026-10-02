@@ -6,6 +6,7 @@
 // handful of globals the inline on* handlers still call.
 import { createAutopilot } from '../core/autopilot.js';
 import { watchMovement, platform } from '../core/location.js';
+import { zoneAt } from '../core/zones.js';
 import { initNotifications, deliver } from '../core/notify.js';
 import { S, renderHome, showBanner, dismissBanner, startSession, stopSession, updateDwellStatus } from './app.js';
 
@@ -99,6 +100,7 @@ export async function startTracking() {
       autopilot.tick({ speed: S.speed, sessionActive: S.sessionActive });
       S.dwellCounter = autopilot.dwellSeconds;
       updateDwellStatus();
+      resolveZone(sample.lat, sample.lon);
     },
     () => showBanner('geo', 'Location unavailable — autopilot paused', 'b-alert')
   );
@@ -108,9 +110,34 @@ export function stopTracking() {
   if (stopWatching) { stopWatching(); stopWatching = null; }
 }
 
+// Prices the spot you are actually standing on, from the bundled RDW snapshot.
+// Only re-resolves when the fix has moved enough to possibly leave the zone,
+// because a point-in-polygon sweep every second would be wasted work.
+let lastFix = null;
+
+async function resolveZone(lat, lon) {
+  if (lat == null || lon == null) return;
+  if (lastFix && Math.abs(lat - lastFix.lat) < 1e-4 && Math.abs(lon - lastFix.lon) < 1e-4) return;
+  lastFix = { lat, lon };
+
+  const here = await zoneAt(lat, lon);
+  S.liveZone = here;
+
+  // An unknown tariff must never read as free: leave the rate null and let the
+  // UI say so.
+  if (here.status === 'paid' || here.status === 'free-now') {
+    S.sessionRate = here.rate;
+    S.sessionZone = here.municipality ? `${here.label} · ${here.municipality}` : here.label;
+  } else if (here.status === 'unknown') {
+    S.sessionZone = here.label;
+  }
+  renderHome();
+}
+
 window.startTracking = startTracking;
 window.stopTracking = stopTracking;
 window.autopilotPlatform = platform;
+window.zoneAt = zoneAt;   // dev tools: price any coordinate from the RDW snapshot
 
 // ── globals the prototype's inline handlers still call ──────────────────────
 window.tickDwell = function () {

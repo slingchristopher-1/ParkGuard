@@ -36,6 +36,8 @@ function applyBrand(b) {
   new MutationObserver(paint).observe(app, { attributes: true, attributeFilter: ['class'] });
 
   document.title = b.name;
+  const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+  if (appleTitle) appleTitle.content = b.name;
   document.documentElement.lang = b.lang;
   document.querySelectorAll('[data-brand-name]').forEach(el => { el.textContent = b.name; });
 }
