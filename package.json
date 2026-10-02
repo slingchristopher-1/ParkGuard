@@ -1,0 +1,32 @@
+{
+  "name": "parkguard",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/sync-brand.mjs && vite",
+    "build": "node scripts/sync-brand.mjs && vite build",
+    "build:all": "node scripts/build-all.mjs",
+    "preview": "vite preview",
+    "test": "node --test src/core/*.test.mjs",
+    "android:add": "npm run build && cap add android",
+    "ios:add": "npm run build && cap add ios",
+    "native:sync": "node scripts/sync-native.mjs",
+    "android:open": "npm run build && cap sync android && cap open android",
+    "ios:open": "npm run build && cap sync ios && cap open ios",
+    "icons": "node scripts/make-icons.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/core": "^8.4.1",
+    "@capacitor/geolocation": "^8.2.0",
+    "@capacitor/ios": "^8.4.1",
+    "@capacitor/local-notifications": "^8.2.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.4.1",
+    "sharp": "^0.35.5",
+    "vite": "^5.4.0",
+    "vite-plugin-pwa": "^0.20.0"
+  }
+}

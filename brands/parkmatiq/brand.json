@@ -1,0 +1,30 @@
+{
+  "id": "parkmatiq",
+  "name": "ParkMatiq",
+  "shortName": "ParkMatiq",
+  "tagline": "Slim parkeren",
+  "description": "Start en stopt je parkeersessie zelf, met een melding zodra je geparkeerd staat en als je wegrijdt.",
+  "appId": "app.parkmatiq.mobile",
+  "lang": "nl",
+  "colors": {
+    "navy": "#002D72",
+    "navy2": "#001540",
+    "yellow": "#F7D117",
+    "yellow2": "#D9B900",
+    "bg": "#F0F3FA",
+    "card": "#FFFFFF",
+    "text": "#0A1F3D",
+    "muted": "#5A7A9A",
+    "border": "rgba(0,45,114,0.12)",
+    "darkBg": "#020E24",
+    "darkCard": "#0A1F3D",
+    "darkText": "#E8F0FF",
+    "darkMuted": "#6B92BB",
+    "darkBorder": "rgba(100,160,255,0.12)"
+  },
+  "copy": {
+    "detected": "Parkeren gedetecteerd",
+    "startPrompt": "Sessie starten?",
+    "stopPrompt": "Je rijdt weg — sessie stoppen?"
+  }
+}

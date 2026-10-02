@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Parking</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- ONBOARDING -->
+  <div class="ob-screen" id="onboarding">
+    <div class="ob-progress" id="ob-dots"></div>
+    <div class="ob-hero" id="ob-body"></div>
+    <div class="ob-nav" id="ob-nav"></div>
+  </div>
+
+  <!-- LOCK SCREEN -->
+  <div class="lock hidden" id="lock-screen">
+    <div class="lock-time" id="lk-time">--:--</div>
+    <div class="lock-date" id="lk-date">Thursday, 7 May</div>
+    <div class="lock-widget">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="width:32px;height:32px;background:var(--yellow);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--navy);font-size:15px;">P</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:white;"><span data-brand-name>ParkGuard</span></div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);">Active parking session</div>
+        </div>
+        <div style="margin-left:auto;"><span class="badge badge-live" style="font-size:10px;">&#9679; Live</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:14px;">
+        <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:10px;padding:10px;">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">Duration</div>
+          <div style="font-size:19px;font-weight:700;color:white;font-family:var(--mono);" id="lk-timer">--:--:--</div>
+        </div>
+        <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:10px;padding:10px;">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">Cost</div>
+          <div style="font-size:19px;font-weight:700;color:var(--yellow);font-family:var(--mono);" id="lk-cost">&#8364;0.00</div>
+        </div>
+        <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:10px;padding:10px;">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px;">Zone</div>
+          <div style="font-size:13px;font-weight:600;color:white;margin-top:2px;" id="lk-zone">-</div>
+        </div>
+      </div>
+      <div id="lk-btn-area" style="display:flex;gap:8px;">
+        <button class="btn btn-danger btn-sm" style="flex:1;width:auto;" onclick="lockStopTap()">Stop Session</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1;width:auto;color:rgba(255,255,255,0.65);border-color:rgba(255,255,255,0.15);" onclick="hideLock()">Dismiss</button>
+      </div>
+    </div>
+    <div style="margin-top:28px;font-size:12px;color:rgba(255,255,255,0.25);">Tap Dismiss to return to app</div>
+  </div>
+
+  <!-- MAP MODAL -->
+  <div class="overlay hidden" id="map-modal">
+    <div class="sheet">
+      <div class="pill-handle"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+        <div>
+          <div style="font-weight:700;font-size:16px;" id="map-addr">Lijnbaan 10, Rotterdam</div>
+          <div style="font-size:12px;color:var(--muted);">Parking location saved at session start</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="closeMap()" style="flex-shrink:0;margin-left:8px;">Got it</button>
+      </div>
+      <svg viewBox="0 0 340 200" style="width:100%;border-radius:14px;display:block;">
+        <rect width="340" height="200" fill="#12233d"/>
+        <rect x="0" y="55" width="340" height="26" fill="#1e3560"/><rect x="0" y="120" width="340" height="20" fill="#1e3560"/>
+        <rect x="55" y="0" width="20" height="200" fill="#1e3560"/><rect x="175" y="0" width="16" height="200" fill="#1e3560"/><rect x="270" y="0" width="15" height="200" fill="#1e3560"/>
+        <rect x="0" y="175" width="340" height="25" fill="#162d52" opacity="0.8"/>
+        <rect x="8" y="2" width="38" height="48" rx="4" fill="#0e1e36"/><rect x="8" y="88" width="38" height="28" rx="4" fill="#0e1e36"/>
+        <rect x="82" y="2" width="78" height="48" rx="4" fill="#0e1e36"/><rect x="82" y="88" width="78" height="88" rx="4" fill="#0e1e36"/>
+        <rect x="198" y="2" width="60" height="48" rx="4" fill="#0e1e36"/><rect x="198" y="88" width="60" height="58" rx="4" fill="#0e1e36"/>
+        <rect x="292" y="2" width="42" height="48" rx="4" fill="#0e1e36"/><rect x="292" y="88" width="42" height="88" rx="4" fill="#0e1e36"/>
+        <text x="170" y="195" fill="#5a8ac4" font-size="8" text-anchor="middle" font-family="sans-serif">Nieuwe Maas</text>
+        <circle cx="170" cy="92" r="20" fill="rgba(247,209,23,0.15)" stroke="rgba(247,209,23,0.4)" stroke-width="1.5"/>
+        <circle cx="170" cy="92" r="7" fill="#F7D117"/>
+        <circle cx="170" cy="92" r="3" fill="#002D72"/>
+        <animateTransform attributeName="" type="scale"/>
+        <rect x="6" y="180" width="120" height="14" rx="3" fill="rgba(0,0,0,0.5)"/>
+        <text id="map-svg-coords" x="10" y="190" fill="#F7D117" font-size="8" font-family="monospace">51.9201N 4.4801E</text>
+      </svg>
+      <div style="text-align:center;font-size:11px;color:var(--muted);margin-top:8px;" id="map-txt-coords">51.9201 N, 4.4801 E</div>
+    </div>
+  </div>
+
+  <!-- CONNECT SHEET -->
+  <div class="overlay hidden" id="connect-modal">
+    <div class="sheet">
+      <div class="pill-handle"></div>
+      <div style="font-weight:700;font-size:17px;margin-bottom:6px;" id="sh-title">Connect App</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:20px;" id="sh-body">Link this app to <span data-brand-name>ParkGuard</span>.</div>
+      <button class="btn btn-primary" id="sh-confirm" onclick="confirmSheet()">Connect</button>
+      <button class="btn btn-ghost" onclick="closeSheet()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ADD CUSTOM APP SHEET -->
+  <div class="overlay hidden" id="custom-app-modal">
+    <div class="sheet">
+      <div class="pill-handle"></div>
+      <div style="font-weight:700;font-size:17px;margin-bottom:6px;">Add Parking App</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">Enter the name of your parking app to add it to <span data-brand-name>ParkGuard</span>.</div>
+      <input type="text" id="custom-app-input" placeholder="App name e.g. Parkmobile UK" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rad-sm);padding:12px 14px;font-size:14px;color:var(--text);font-family:var(--font);outline:none;margin-bottom:10px;">
+      <button class="btn btn-primary" onclick="addCustomApp()">Add App</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('custom-app-modal').classList.add('hidden')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="main-app" class="hidden">
+    <div style="position:fixed;top:58px;left:50%;transform:translateX(-50%);width:100%;max-width:390px;padding:8px 12px 0;z-index:150;" id="banner-area"></div>
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:28px;background:var(--navy);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--yellow);font-size:13px;">P</div>
+        <span style="font-size:18px;font-weight:800;color:var(--text);"><span data-brand-name>ParkGuard</span></span>
+        
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-ghost btn-sm" onclick="toggleDev()" style="padding:5px 9px;font-size:13px;font-weight:700;" id="dev-btn" title="Developer tools">&#x1F6E0;</button>
+        <button class="btn btn-ghost btn-sm" onclick="showLock()" style="padding:5px 9px;font-size:15px;" title="Lock screen">&#128241;</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleDark()" style="padding:5px 9px;font-size:15px;" id="dark-btn">&#127769;</button>
+      </div>
+    </div>
+    <div id="sc-home" class="screen" style="padding-top:66px;display:block;"></div>
+    <div id="sc-apps" class="screen" style="padding-top:66px;display:none;"></div>
+    <div id="sc-history" class="screen" style="padding-top:66px;display:none;"></div>
+    <div id="sc-settings" class="screen" style="padding-top:66px;display:none;"></div>
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('home')" id="tab-home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></div>
+      <div class="tab" onclick="showTab('apps')" id="tab-apps"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Apps</span></div>
+      <div class="tab" onclick="showTab('history')" id="tab-history"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>History</span></div>
+      <div class="tab" onclick="showTab('settings')" id="tab-settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Settings</span></div>
+    </div>
+  </div>
+
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

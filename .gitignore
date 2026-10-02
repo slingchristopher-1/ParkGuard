@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-*
+native
+src/brand/active.json
+capacitor.config.json
+public/icon-*.png
+public/apple-touch-icon.png
+.env

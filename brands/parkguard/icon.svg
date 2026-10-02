@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#003A92"/>
+      <stop offset="1" stop-color="#001540"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#ground)"/>
+
+  <!-- shield: the "guard" half of the name -->
+  <path d="M256 92 L396 146 V268 C396 346 334 400 256 428 C178 400 116 346 116 268 V146 Z"
+        fill="none" stroke="#F7D117" stroke-width="20"
+        stroke-linejoin="round" opacity="0.92"/>
+
+  <!-- P -->
+  <path d="M214 184 h62 a52 52 0 0 1 0 104 h-34 v60 h-28 Z
+           M242 212 v48 h34 a24 24 0 0 0 0 -48 Z"
+        fill="#FFFFFF" fill-rule="evenodd"/>
+</svg>

@@ -1,0 +1,30 @@
+{
+  "id": "parkguard",
+  "name": "ParkGuard",
+  "shortName": "ParkGuard",
+  "tagline": "Parking on autopilot",
+  "description": "Connects your parking apps and handles starting and stopping for you.",
+  "appId": "app.parkguard.mobile",
+  "lang": "en",
+  "colors": {
+    "navy": "#002D72",
+    "navy2": "#001a45",
+    "yellow": "#F7D117",
+    "yellow2": "#e6c200",
+    "bg": "#f0f3fa",
+    "card": "#ffffff",
+    "text": "#0d1f3c",
+    "muted": "#5a7a9a",
+    "border": "rgba(0,45,114,0.12)",
+    "darkBg": "#020e24",
+    "darkCard": "#0a1f3d",
+    "darkText": "#dde8ff",
+    "darkMuted": "#6b92bb",
+    "darkBorder": "rgba(100,160,255,0.12)"
+  },
+  "copy": {
+    "detected": "Parking detected",
+    "startPrompt": "Start your parking session?",
+    "stopPrompt": "You drove off — stop the session?"
+  }
+}
