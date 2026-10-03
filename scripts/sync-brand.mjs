@@ -13,7 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const brand = process.env.BRAND || 'parkguard';
+const brand = process.env.BRAND || 'parkmatiq';
 const dir = path.join(root, 'brands', brand);
 
 if (!fs.existsSync(dir)) {

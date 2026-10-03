@@ -1,4 +1,4 @@
-# ParkGuard
+# ParkMatiq
 
 Parking on autopilot. One codebase, two brands, and the same build feeds the web
 app, Android and iOS.
@@ -31,8 +31,8 @@ index.html    markup
 **Brand-specific change — only that brand.** Everything inside `brands/<id>/`:
 
 ```
-brands/parkguard/brand.json    name, appId, colours, copy, language
-brands/parkguard/icons/        icon-192 / icon-512 / icon-512-maskable / apple-touch-icon
+brands/parkmatiq/brand.json    name, appId, colours, copy, language
+brands/parkmatiq/icons/        icon-192 / icon-512 / icon-512-maskable / apple-touch-icon
 ```
 
 Nothing in `src/` names a brand. `scripts/sync-brand.mjs` reads the chosen
@@ -64,11 +64,11 @@ Current snapshot: 3032 zones, 2338 priced, across 114 municipalities.
 
 ```bash
 npm install
-npm run dev                 # ParkGuard by default
-BRAND=parkmatiq npm run dev # the other brand
+npm run dev                 # ParkMatiq by default
+BRAND=parkguard npm run dev # the other brand
 npm test                    # the autopilot rules
 npm run build               # → dist/
-npm run build:all           # → dist-parkguard/, dist-parkmatiq/
+npm run build:all           # → dist-parkmatiq/, dist-parkguard/
 ```
 
 ## On your phone
@@ -76,7 +76,7 @@ npm run build:all           # → dist-parkguard/, dist-parkmatiq/
 **As a web app (no store, updates on push):** the Pages workflow publishes
 `dist/` on every push to `main`.
 
-> **https://slingchristopher-1.github.io/ParkGuard/**
+> **https://slingchristopher-1.github.io/ParkMatiq/**
 
 - **iPhone** — open that link in **Safari** (not Chrome; only Safari can install
   a home-screen app on iOS), tap **Share** → **Add to Home Screen**. It then

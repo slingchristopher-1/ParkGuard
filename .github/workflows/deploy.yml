@@ -7,9 +7,9 @@ on:
     inputs:
       brand:
         description: Brand to publish
-        default: parkguard
+        default: parkmatiq
         type: choice
-        options: [parkguard, parkmatiq]
+        options: [parkmatiq, parkguard]
 
 permissions:
   contents: read
@@ -42,7 +42,7 @@ jobs:
 
       - run: npm run build
         env:
-          BRAND: ${{ inputs.brand || 'parkguard' }}
+          BRAND: ${{ inputs.brand || 'parkmatiq' }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

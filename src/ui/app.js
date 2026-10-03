@@ -1,3 +1,6 @@
+import brandConfig from '../brand/active.json';
+const BRAND = brandConfig.name;
+
 var S = {
   dark: false, sessionActive: false, sessionSeconds: 0, sessionRate: 2.0,
   sessionApp: 'ParkMobile', sessionZone: 'Zone B - City Centre',
@@ -239,7 +242,7 @@ function updateDwellStatus() {
 
 
 function runQuickTest() {
-  console.log('[ParkGuard Test] Starting quick test...');
+  console.log('[' + BRAND + ' Test] Starting quick test...');
   // Reset state
   S.sessionActive = false; S.sessionSeconds = 0;
   S.dwellCounter = 0; S.dwellTriggered = false;
@@ -366,7 +369,7 @@ function changeLocation() { if(S.sessionActive)return; S.locationIdx=(S.location
 function openSheet(app, action) {
   S.sheetApp=app; S.sheetAction=action;
   document.getElementById('sh-title').textContent=(action==='connect'?'Connect ':'Disconnect ')+app;
-  document.getElementById('sh-body').textContent=action==='connect'?'Link '+app+' to ParkGuard for session monitoring.':'Remove '+app+' from ParkGuard?';
+  document.getElementById('sh-body').textContent=action==='connect'?'Link '+app+' to ' + BRAND + ' for session monitoring.':'Remove '+app+' from ' + BRAND + '?';
   document.getElementById('sh-confirm').textContent=action==='connect'?'Connect':'Disconnect';
   document.getElementById('sh-confirm').className='btn '+(action==='connect'?'btn-primary':'btn-danger');
   document.getElementById('connect-modal').classList.remove('hidden');
@@ -849,12 +852,12 @@ function renderSettings() {
   h += '<label class="sw"><input type="checkbox" '+(S.manualStopAllowed?'checked':'')+' onchange="S.manualStopAllowed=this.checked;renderHome();renderSettings()"><span class="sw-track"></span></label></div></div></div>';
 
   h += '<div class="section-label">Driving Response</div><div class="card">';
-  h += '<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">When driving is detected, ParkGuard should:</div>';
+  h += '<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">When driving is detected, ' + BRAND + ' should:</div>';
   h += '<div class="radio-opt '+(S.driveMode==='auto'?'sel':'')+'" onclick="S.driveMode=\'auto\';S.autoStopEnabled=true;renderSettings()"><div class="rdot"><div class="rin"></div></div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Auto-Stop</div><div style="font-size:12px;color:var(--muted);">End session automatically after countdown</div></div></div>';
   h += '<div class="radio-opt '+(S.driveMode==='notify'?'sel':'')+'" onclick="S.driveMode=\'notify\';S.autoStopEnabled=false;renderSettings()"><div class="rdot"><div class="rin"></div></div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Send Notification</div><div style="font-size:12px;color:var(--muted);">Alert you but keep session running</div></div></div>';
 
   h += '<div style="height:1px;background:var(--border);margin:12px 0;"></div>';
-  h += '<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">When you stop driving, ParkGuard should:</div>';
+  h += '<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">When you stop driving, ' + BRAND + ' should:</div>';
   h += '<div class="radio-opt '+(S.stopMode==='auto'?'sel':'')+'" onclick="S.stopMode=\'auto\';renderSettings()"><div class="rdot"><div class="rin"></div></div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Auto-Start New Session</div><div style="font-size:12px;color:var(--muted);">Automatically begin a new parking session</div></div></div>';
   h += '<div class="radio-opt '+(S.stopMode==='notify'?'sel':'')+'" onclick="S.stopMode=\'notify\';renderSettings()"><div class="rdot"><div class="rin"></div></div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Send Notification</div><div style="font-size:12px;color:var(--muted);">Alert you to start a session manually</div></div></div>';
   h += '<div class="radio-opt '+(S.stopMode==='nothing'?'sel':'')+'" onclick="S.stopMode=\'nothing\';renderSettings()"><div class="rdot"><div class="rin"></div></div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Do Nothing</div><div style="font-size:12px;color:var(--muted);">No action, you manage sessions manually</div></div></div>';
@@ -935,7 +938,7 @@ function renderOB() {
       '<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">' +
       '<div style="padding:20px 24px 0;display:flex;align-items:center;gap:10px;">' +
       '<div style="width:32px;height:32px;background:linear-gradient(135deg,#002D72,#0040a0);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#F7D117;">P</div>' +
-      '<span style="font-size:18px;font-weight:800;color:var(--text);">ParkGuard</span></div>' +
+      '<span style="font-size:18px;font-weight:800;color:var(--text);">' + BRAND + '</span></div>' +
       '<div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px 16px;">' +
       '<svg id="intro-svg" viewBox="0 0 340 340" style="width:100%;max-width:340px" xmlns="http://www.w3.org/2000/svg">' +
       '<style>' +
@@ -1050,7 +1053,7 @@ function renderOB() {
       '<g id="notif-start">' +
       '<rect x="255" y="113" width="58" height="48" rx="7" fill="#0d3d1a"/>' +
       '<rect x="258" y="117" width="8" height="8" rx="2" fill="#F7D117"/>' +
-      '<text x="270" y="124" font-size="7" font-family="sans-serif" font-weight="700" fill="rgba(255,255,255,0.7)">ParkGuard</text>' +
+      '<text x="270" y="124" font-size="7" font-family="sans-serif" font-weight="700" fill="rgba(255,255,255,0.7)">' + BRAND + '</text>' +
       '<text x="257" y="136" font-size="8.5" font-family="sans-serif" font-weight="700" fill="#6dff9a">Parking started</text>' +
       '<text x="257" y="148" font-size="6.5" font-family="sans-serif" fill="rgba(255,255,255,0.6)">Zone B detected</text>' +
       '<text x="257" y="158" font-size="6" font-family="sans-serif" fill="rgba(255,255,255,0.38)">Just now • auto-detected</text>' +
@@ -1060,7 +1063,7 @@ function renderOB() {
       '<g id="notif-stop">' +
       '<rect x="255" y="113" width="58" height="48" rx="7" fill="#3d1a00"/>' +
       '<rect x="258" y="117" width="8" height="8" rx="2" fill="#F7D117"/>' +
-      '<text x="270" y="124" font-size="7" font-family="sans-serif" font-weight="700" fill="rgba(255,255,255,0.7)">ParkGuard</text>' +
+      '<text x="270" y="124" font-size="7" font-family="sans-serif" font-weight="700" fill="rgba(255,255,255,0.7)">' + BRAND + '</text>' +
       '<text x="257" y="136" font-size="8.5" font-family="sans-serif" font-weight="700" fill="#ffb347">Parking stopped</text>' +
       '<text x="257" y="148" font-size="6.5" font-family="sans-serif" fill="rgba(255,255,255,0.6)">48m · €1.60 saved</text>' +
       '<text x="257" y="158" font-size="6" font-family="sans-serif" fill="rgba(255,255,255,0.38)">Just now • auto-stopped</text>' +
@@ -1109,7 +1112,7 @@ function renderOB() {
   } else if (obStep === 1) {
     body.innerHTML = '<div class="ob-body">' +
       '<div style="font-size:26px;font-weight:800;margin-bottom:6px;">Permissions</div>' +
-      '<div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">ParkGuard needs access to a few things to work its magic in the background.</div>' +
+      '<div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">' + BRAND + ' needs access to a few things to work its magic in the background.</div>' +
       [['&#128205;','Location','permLocation','Detects your parking zone and exemptions'],['&#128241;','Motion','permMotion','Accelerometer to auto-detect parking and driving'],['&#128276;','Notifications','permNotif','Alerts for driving detection and budget limits']].map(function(p) {
         return '<div class="card" style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">' +
           '<div style="width:40px;height:40px;background:rgba(0,45,114,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">'+p[0]+'</div>' +
@@ -1138,7 +1141,7 @@ function renderOB() {
     }).join('');
     body.innerHTML = '<div class="ob-body">' +
       '<div style="font-size:26px;font-weight:800;margin-bottom:6px;">Connect Apps</div>' +
-      '<div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Tap an app to connect it. ParkGuard will link with your parking apps to manage sessions.</div>' +
+      '<div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;">Tap an app to connect it. ' + BRAND + ' will link with your parking apps to manage sessions.</div>' +
       appRows + customRows +
       '</div>';
     nav.innerHTML = '<button class="btn btn-primary" onclick="obStep=3;renderOB()">Continue</button>';
@@ -1211,7 +1214,7 @@ function renderOB() {
   } else if (obStep === 4) {
     body.innerHTML = '<div class="ob-body">' +
       '<div style="font-size:26px;font-weight:800;margin-bottom:6px;">Preferences</div>' +
-      '<div style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5;">Configure how ParkGuard behaves when it detects changes in your driving.</div>' +
+      '<div style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5;">Configure how ' + BRAND + ' behaves when it detects changes in your driving.</div>' +
 
       '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;">When you START driving</div>' +
       '<div class="radio-opt '+(S.driveMode==='auto'?'sel':'')+'" onclick="S.driveMode=\'auto\';S.autoStopEnabled=true;renderOB()"><div class="rdot"><div class="rin"></div></div><div><div style="font-size:13px;font-weight:600;">Auto-Stop Session</div><div style="font-size:12px;color:var(--muted);">Automatically end session after countdown</div></div></div>' +
@@ -1240,7 +1243,7 @@ function renderOB() {
       '<div style="padding:0 24px 24px;">' +
       '<div style="font-size:48px;margin-bottom:16px;">&#x1F3C6;</div>' +
       '<div style="font-size:28px;font-weight:800;margin-bottom:10px;">All set!</div>' +
-      '<div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">ParkGuard is ready. Here\'s a quick summary of your setup:</div>' +
+      '<div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">' + BRAND + ' is ready. Here\'s a quick summary of your setup:</div>' +
       '<div style="display:flex;flex-direction:column;gap:8px;">' +
       '<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rad-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;">' +
       '<span style="font-size:16px;">&#x1F4F1;</span><span style="font-size:13px;">Auto-start: <strong>Activity mode + dwell time fallback</strong></span></div>' +
@@ -1251,7 +1254,7 @@ function renderOB() {
       '<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rad-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;">' +
       '<span style="font-size:16px;">&#x1F4B3;</span><span style="font-size:13px;"><strong>'+connCount+'</strong> parking app'+(connCount!==1?'s':'')+' connected</span></div>' +
       '</div></div></div>';
-    nav.innerHTML = '<button class="btn btn-primary" onclick="finishOB()">Start Using ParkGuard</button>';
+    nav.innerHTML = '<button class="btn btn-primary" onclick="finishOB()">Start Using ' + BRAND + '</button>';
   }
 }
 
